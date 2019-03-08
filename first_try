@@ -14,7 +14,7 @@ From: ubuntu:18.04
 
 %post
     apt-get update
-    apt-get -y install cmake make git libeigen3-dev libboost-all-dev ruby curl clang
+    apt-get -y install cmake make git libeigen3-dev libboost-all-dev
     git clone https://github.com/yaesoubilab/StatisticalDistributionsLib repos/StatisticalDistributionsLib/
     git clone https://github.com/yaesoubilab/SimulationLib repos/SimulationLib/
     git clone https://github.com/yaesoubilab/TBABM repos/TBABM/
@@ -27,7 +27,7 @@ From: ubuntu:18.04
 %runscript
     echo "Container was created $NOW"
     echo "Arguments received: $*"
-    exec cd repos/TBABM/src && ./TBABM "$@"
+    exec cd ${SINGULARITY_ROOTFS}/repos/TBABM/src && ./TBABM "$@"
 
 %startscript
     nc -lp $LISTEN_PORT
