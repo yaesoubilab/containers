@@ -1,0 +1,50 @@
+Bootstrap: library
+From: ubuntu:18.04
+
+%setup
+    mkdir ${SINGULARITY_ROOTFS}/repos
+    mkdir ${SINGULARITY_ROOTFS}/repos/StatisticalDistributionsLib
+    mkdir ${SINGULARITY_ROOTFS}/repos/SimulationLib
+    mkdir ${SINGULARITY_ROOTFS}/repos/TBABM
+    mkdir ${SINGULARITY_ROOTFS}/params_bucket
+
+%files
+
+%environment
+
+%post
+    apt-get update
+    apt-get -y install cmake make git libeigen3-dev libboost-all-dev ruby curl clang
+    git clone https://github.com/yaesoubilab/StatisticalDistributionsLib repos/StatisticalDistributionsLib/
+    git clone https://github.com/yaesoubilab/SimulationLib repos/SimulationLib/
+    git clone https://github.com/yaesoubilab/TBABM repos/TBABM/
+    cd repos/StatisticalDistributionsLib && cmake . && make install && cd ..
+    cd SimulationLib/SimulationLib && cmake . && make install && cd ../..
+    cd TBABM && git checkout TB && cmake . && make && cd ../..
+    NOW=`date`
+    echo "export NOW=\"${NOW}\"" >> $SINGULARITY_ENVIRONMENT
+
+%runscript
+    echo "Container was created $NOW"
+    echo "Arguments received: $*"
+    exec cd repos/TBABM/src && ./TBABM "$@"
+
+%startscript
+    nc -lp $LISTEN_PORT
+
+%test
+    grep -q NAME=\"Ubuntu\" /etc/os-release
+    if [ $? -eq 0 ]; then
+        echo "Container base is Ubuntu as expected."
+    else
+        echo "Container base is not Ubuntu."
+    fi
+
+%labels
+    Author marcus.russi@yale.edu
+    Version v0.0.1
+    URL https://github.com/yaesoubilab
+
+%help
+    This is a production container used for cluster-based runs of TBABM
+
