@@ -14,13 +14,16 @@ From: ubuntu:18.04
 
 %post
     apt-get update
-    apt-get -y install cmake make git libeigen3-dev libboost-all-dev clang
-    # git clone https://github.com/yaesoubilab/StatisticalDistributionsLib repos/StatisticalDistributionsLib/
-    # git clone https://github.com/yaesoubilab/SimulationLib repos/SimulationLib/
-    # git clone https://github.com/yaesoubilab/TBABM repos/TBABM/
-    # cd repos/StatisticalDistributionsLib && cmake . && make install && cd ..
-    # cd SimulationLib/SimulationLib && cmake . && make install && cd ../..
-    # cd TBABM && git checkout new-memory && cmake . && make && cd ../..
+    apt-get -y install cmake make git libeigen3-dev libboost-all-dev clang python-pip
+    pip install csvkit
+    export CC=/usr/bin/clang
+    export CXX=/usr/bin/clang++
+    git clone https://github.com/yaesoubilab/StatisticalDistributionsLib repos/StatisticalDistributionsLib/
+    git clone https://github.com/yaesoubilab/SimulationLib repos/SimulationLib/
+    git clone https://github.com/yaesoubilab/TBABM repos/TBABM/
+    cd repos/StatisticalDistributionsLib && cmake . && make install && cd ..
+    cd SimulationLib/SimulationLib && cmake . && make install && cd ../..
+    cd TBABM && git checkout new-memory && cmake . && make && cd ../..
     NOW=`date`
     echo "export NOW=\"${NOW}\"" >> $SINGULARITY_ENVIRONMENT
 
