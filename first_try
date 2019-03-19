@@ -14,7 +14,7 @@ From: ubuntu:18.04
 
 %post
     apt-get update
-    apt-get -y install cmake make git libeigen3-dev libboost-all-dev clang clang++
+    apt-get -y install cmake make git libeigen3-dev libboost-all-dev clang
     git clone https://github.com/yaesoubilab/StatisticalDistributionsLib repos/StatisticalDistributionsLib/
     git clone https://github.com/yaesoubilab/SimulationLib repos/SimulationLib/
     git clone https://github.com/yaesoubilab/TBABM repos/TBABM/
