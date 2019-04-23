@@ -23,7 +23,7 @@ From: ubuntu:18.04
     git clone https://github.com/yaesoubilab/TBABM repos/TBABM/
     cd repos/StatisticalDistributionsLib && cmake . && make install && cd ..
     cd SimulationLib/SimulationLib && cmake . && make install && cd ../..
-    cd TBABM && git checkout TB && cmake . && make && cd ../..
+    cd TBABM && git checkout new-tb-initialization && cmake . && make && cd ../..
     NOW=`date`
     echo "export NOW=\"${NOW}\"" >> $SINGULARITY_ENVIRONMENT
 
